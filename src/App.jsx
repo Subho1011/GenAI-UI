@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ActionButtons from './components/ActionButtons';
 import ActionResults from './components/ActionResults.jsx';
 
 const App = () => {
+
+  const [preConfigPrompts , setPreConfigPrompts] = useState('');
+
+  const setPrompts = (prompt) => {
+    setPreConfigPrompts(prompt);
+    console.log('preConfigPrompts ' + preConfigPrompts);
+  };
+
   return (
     <div style={styles.appContainer}>
-      <ActionButtons />
-      <ActionResults />
+      <ActionButtons setPrompts={setPrompts}/>
+      <ActionResults preConfigPrompts={preConfigPrompts} setPrompts={setPrompts}/>
     </div>
   );
 };

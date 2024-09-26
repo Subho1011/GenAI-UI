@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
-const ActionResults = () => {
+const ActionResults = ({ preConfigPrompts, setPrompts}) => {
   const [inputValue, setInputValue] = useState('');
+  let prompt = '';
 
   // Handle input change and update state
   const handleInputChange = (e) => {
@@ -11,10 +12,13 @@ const ActionResults = () => {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (inputValue.trim() !== '') {
-      console.log('Form submitted:', inputValue);
+   // if (inputValue.trim() !== '') {
+      prompt = `${prompt} ${preConfigPrompts} ${inputValue}`;
+      console.log('Form submitted:', prompt.trim());
+      prompt = ''; // Set the prompt to empty string
+      setPrompts(''); // This lifts the state up as in set preConfigPrompts to empty string in App.jsx
       setInputValue(''); // Clear the text area after submission
-    }
+    //}
   };
 
   const isButtonDisabled = inputValue.trim() === '';

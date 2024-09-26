@@ -1,10 +1,11 @@
 import React from 'react';
 import buttonArray from '../utilities/button-array';
 
-const ActionButtons = () => {
+const ActionButtons = ({ setPrompts }) => {
 
   const handleClick = (prompt) => {
     console.log("prompt " + prompt);
+    setPrompts(prompt); // This lifts the state up as in set preConfigPrompts in App.jsx
   }
 
   return (
