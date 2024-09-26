@@ -1,35 +1,43 @@
 const buttonArray = [
     {
         id: 0,
-        text: "Req -> Story"
+        text: "Info -> TCS",
+        prompt: "Tell me something about TCS"
     },
     {
         id: 1,
-        text: "Req -> Story"
+        text: "Info -> Infosys",
+        prompt: "Tell me something about Infosys"
     },
     {
         id: 2,
-        text: "Req -> Story"
+        text: "Info -> Oracle",
+        prompt: "Tell me something about Oracle"
     },
     {
         id: 3,
-        text: "Req -> Story"
+        text: "Info -> Deloitte",
+        prompt: "Tell me something about Deloitte"
     },
     {
         id: 4,
-        text: "Req -> Story"
+        text: "Info -> EY",
+        prompt: "Tell me something about EY"
     },
     {
         id: 5,
-        text: "Req -> Story"
+        text: "Info -> Cognizant",
+        prompt: "Tell me something about Cognizant"
     },
     {
         id: 6,
-        text: "Req -> Story"
+        text: "Info -> Facebook",
+        prompt: "Tell me something about Facebook"
     },
     {
         id: 7,
-        text: "Req -> Story"
+        text: "Info -> TueTek",
+        prompt: "Tell me something about TueTek"
     },
 
 ];

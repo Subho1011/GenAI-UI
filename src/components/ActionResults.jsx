@@ -3,20 +3,21 @@ import React, { useState } from 'react';
 const ActionResults = () => {
   const [inputValue, setInputValue] = useState('');
 
-  // Function to handle input change and update state
+  // Handle input change and update state
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
 
-  // Function to handle form submission
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     if (inputValue.trim() !== '') {
-      // Handle the submit action here
       console.log('Form submitted:', inputValue);
       setInputValue(''); // Clear the text area after submission
     }
   };
+
+  const isButtonDisabled = inputValue.trim() === '';
 
   return (
     <div style={styles.container}>
@@ -29,7 +30,7 @@ const ActionResults = () => {
       
       <form style={styles.form} onSubmit={handleSubmit}>
         <textarea
-          style={{ ...styles.textAreaForm, height: '100%', width: '100%' , position: 'relative' }}
+          style={{ ...styles.textAreaForm, height: '100%', width: '100%', position: 'relative' }}
           maxLength={100}
           placeholder="Prompt & user Input"
           value={inputValue}
@@ -37,10 +38,14 @@ const ActionResults = () => {
         />
         <button 
           type="submit"
-          style={{...styles.submitButton, fonteight: '700' }}
-          disabled={inputValue.trim() === ''}
+          style={{
+            ...styles.submitButton,
+            backgroundColor: isButtonDisabled ? '#A9A9A9' : '#007BFF', // Gray if disabled, blue if enabled
+            cursor: isButtonDisabled ? 'not-allowed' : 'pointer',      // 🚫 sign when disabled
+          }}
+          disabled={isButtonDisabled}
         >
-        &#x25B2;
+          &#x25B2;
         </button>
       </form>
     </div>
@@ -86,18 +91,17 @@ const styles = {
     position: 'absolute',
     bottom: '20px',
     right: '20px',
-    backgroundColor: '#007BFF',
     color: 'white',
     border: 'none',
     padding: '10px 20px',
     height: '35px',
     width: '35px',
-    cursor: 'pointer',
     opacity: 0.8,
     fontSize: '12px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: '5px',
   },
 };
 
