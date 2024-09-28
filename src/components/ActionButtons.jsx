@@ -23,8 +23,8 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'stretch',
     height: '100vh', // Occupy full height
-    padding: '10px',
-    gap: '20px',
+    padding: '0.1rem',
+    gap: '2rem',
   },
 };
 

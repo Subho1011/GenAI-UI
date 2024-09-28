@@ -13,6 +13,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html{
+  /* font-size: 10px*/
+  /* 10px / 16px = 0.625px = 62.5% */
+  /* Percentage of user's browser's font size setting*/
+  font-size: 62.5%;
+}
+
 a {
   font-weight: 500;
   color: #646cff;

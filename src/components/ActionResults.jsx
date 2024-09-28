@@ -14,7 +14,7 @@ const ActionResults = ({ preConfigPrompts, setPrompts}) => {
     e.preventDefault();
    // if (inputValue.trim() !== '') {
       prompt = `${prompt} ${preConfigPrompts} ${inputValue}`;
-      console.log('Form submitted:', prompt.trim());
+      //console.log('Form submitted:', prompt.trim());
       prompt = ''; // Set the prompt to empty string
       setPrompts(''); // This lifts the state up as in set preConfigPrompts to empty string in App.jsx
       setInputValue(''); // Clear the text area after submission
@@ -69,14 +69,14 @@ const styles = {
     backgroundColor: 'black',
     color: 'white',
     border: '1px solid #ccc',
-    margin: '10px',
-    padding: '10px',
-    fontSize: '14px',
+    margin: '0.1rem',
+    padding: '0.1rem',
+    fontSize: '1rem',
     resize: 'none',
   },
   form: {
     flexGrow: 1,
-    margin: '10px',
+    margin: '0.1rem',
     display: 'flex',
     flexDirection: 'column',
   },
@@ -85,23 +85,23 @@ const styles = {
     backgroundColor: 'black',
     color: 'white',
     border: '1px solid #ccc',
-    padding: '10px',
-    fontSize: '14px',
+    padding: '0.1rem',
+    fontSize: '1rem',
     resize: 'none',
     width: '100%', // Ensure the textarea takes up the full width of the form
     boxSizing: 'border-box', // Include padding and border in the element's width and height
   },
   submitButton: {
     position: 'absolute',
-    bottom: '20px',
-    right: '20px',
+    bottom: '7px',
+    right: '15px',
     color: 'white',
     border: 'none',
-    padding: '10px 20px',
-    height: '35px',
-    width: '35px',
+    padding: '0.1rem 0.2rem',
+    height: '2.5rem',
+    width: '2.5rem',
     opacity: 0.8,
-    fontSize: '12px',
+    fontSize: '1.2rem',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
