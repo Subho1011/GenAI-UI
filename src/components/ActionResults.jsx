@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import getResponse from '../utilities/get-response';
 import postRequest from '../utilities/post-request';
+import './ActionResults.css'; // Import the CSS file for the blinking effect
 
-const ActionResults = ({ preConfigPrompts, setPrompts}) => {
+const ActionResults = ({ preConfigPrompts, setPrompts }) => {
   const [inputValue, setInputValue] = useState('');
+  const [chatHistory, setChatHistory] = useState(''); // For storing responses progressively
+  const [isTyping, setIsTyping] = useState(false);    // Typing state to control blinking cursor
+
   let prompt = '';
 
   // Handle input change and update state
@@ -12,40 +16,38 @@ const ActionResults = ({ preConfigPrompts, setPrompts}) => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-   // if (inputValue.trim() !== '') {
-      prompt = `${prompt} ${preConfigPrompts} ${inputValue}`;
-      //console.log('Form submitted:', prompt.trim());
-      const data = { model: "llama3", prompt: prompt };
-      let interrupt = new AbortController();
-      
-      postRequest(data, interrupt.signal)
-    .then(async response => {
-      await getResponse(response, parsedResponse => {
-        let word = parsedResponse.response;
-        let response = '';
-        // add word to response
-        if (word != undefined) {    
-          response += word;
-        }
-        console.log('response ', response);
-      });
-    })
-    .then(() => {
-      console.log('Message printing done!');
-    })
-    .catch(error => {
-      if (error !== 'Stop button pressed') {
-        console.error(error);
-      }
-    });
 
+    prompt = `${preConfigPrompts} ${inputValue}`;
+    const data = { model: 'llama3', prompt: prompt.trim() };
+    let interrupt = new AbortController();
 
-      prompt = ''; // Set the prompt to empty string
-      setPrompts(''); // This lifts the state up as in set preConfigPrompts to empty string in App.jsx
-      setInputValue(''); // Clear the text area after submission
-    //}
+    try {
+      setIsTyping(true); // Start typing animation (blinking cursor enabled)
+      await postRequest(data, interrupt.signal)
+        .then(async (response) => {
+          await getResponse(response, (parsedResponse) => {
+            const { response: word, done } = parsedResponse;
+            if (word !== undefined) {
+              setChatHistory((prev) => prev + word); // Append word to chat history
+            }
+
+            if (done) {
+              setIsTyping(false); // Stop typing when done (blinking cursor disabled)
+            }
+          });
+        })
+        .catch((error) => {
+          if (error !== 'Stop button pressed') {
+            console.error(error);
+          }
+        });
+    } finally {
+      prompt = ''; // Clear prompt
+      setPrompts(''); // Clear preConfigPrompts in App.jsx
+      setInputValue(''); // Clear input area
+    }
   };
 
   const isButtonDisabled = inputValue.trim() === '';
@@ -53,10 +55,10 @@ const ActionResults = ({ preConfigPrompts, setPrompts}) => {
   return (
     <div style={styles.container}>
       <textarea
+        className={isTyping ? 'chatHistory blinking-cursor' : 'chatHistory'} // Apply blinking-cursor when typing
         style={{ ...styles.textArea, height: '80%' }}
-        maxLength={500}
-        placeholder="Chat history Box"
-        readOnly // Make this read-only as it's for displaying history
+        value={chatHistory} // Display the chat history
+        readOnly
       />
       
       <form style={styles.form} onSubmit={handleSubmit}>
@@ -100,6 +102,8 @@ const styles = {
     padding: '0.1rem',
     fontSize: '1rem',
     resize: 'none',
+    position: 'relative', // Ensure positioning for blinking cursor
+    whiteSpace: 'pre-wrap', // To handle new lines properly
   },
   form: {
     flexGrow: 1,

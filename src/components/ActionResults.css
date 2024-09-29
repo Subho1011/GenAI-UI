@@ -1,0 +1,29 @@
+/* This will be applied to the text container (textarea) */
+.chatHistory {
+    white-space: pre-wrap; /* Ensures new lines appear */
+    transition: all 0.5s ease-in-out;
+    position: relative;
+  }
+  
+  .blinking-cursor::after {
+    content: '|'; /* This is the blinking cursor */
+    font-weight: bold;
+    animation: blink 1s steps(2, start) infinite;
+    color: white;
+    position: relative;
+    margin-left: 2px; /* Adjust for spacing */
+  }
+  
+  /* Blinking cursor animation */
+  @keyframes blink {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
