@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import getResponse from '../utilities/get-response';
+import postRequest from '../utilities/post-request';
 
 const ActionResults = ({ preConfigPrompts, setPrompts}) => {
   const [inputValue, setInputValue] = useState('');
@@ -15,6 +17,31 @@ const ActionResults = ({ preConfigPrompts, setPrompts}) => {
    // if (inputValue.trim() !== '') {
       prompt = `${prompt} ${preConfigPrompts} ${inputValue}`;
       //console.log('Form submitted:', prompt.trim());
+      const data = { model: "llama3", prompt: prompt };
+      let interrupt = new AbortController();
+      
+      postRequest(data, interrupt.signal)
+    .then(async response => {
+      await getResponse(response, parsedResponse => {
+        let word = parsedResponse.response;
+        let response = '';
+        // add word to response
+        if (word != undefined) {    
+          response += word;
+        }
+        console.log('response ', response);
+      });
+    })
+    .then(() => {
+      console.log('Message printing done!');
+    })
+    .catch(error => {
+      if (error !== 'Stop button pressed') {
+        console.error(error);
+      }
+    });
+
+
       prompt = ''; // Set the prompt to empty string
       setPrompts(''); // This lifts the state up as in set preConfigPrompts to empty string in App.jsx
       setInputValue(''); // Clear the text area after submission
