@@ -1,4 +1,5 @@
-const URL = 'http://localhost:11434/api/generate';
+//const URL = 'http://localhost:11434/api/generate';
+const URL = `https://walked-lifetime-san-julia.trycloudflare.com/api/generate`;
 
 // Function to send a POST request to the API
 function postRequest(data, signal) {

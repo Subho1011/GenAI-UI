@@ -1,19 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import getResponse from '../utilities/get-response';
 import postRequest from '../utilities/post-request';
-import './ActionResults.css'; // Import the CSS file for the blinking effect
+import './ActionResults.css'; // Import the CSS file for the blinking effect and spinner
 
 const ActionResults = ({ preConfigPrompts, setPrompts }) => {
   const [inputValue, setInputValue] = useState('');
   const [chatHistory, setChatHistory] = useState(''); // For storing responses progressively
   const [isTyping, setIsTyping] = useState(false);    // Typing state to control blinking cursor
 
+  const [isButtonDisabled, setIsButtonDisabled] = useState(inputValue.trim() === '');
   let prompt = '';
+
+  useEffect(() => {
+    setInputValue((prev) => prev + preConfigPrompts);
+    setIsButtonDisabled(preConfigPrompts.trim() === '');
+  }, [preConfigPrompts])
 
   // Handle input change and update state
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
+    if (inputValue.trim() === '') {
+      setIsButtonDisabled(false);
+    }
   };
+
+  //Handle Click
+  const handleSubmitClick = () => {
+    setChatHistory((prev) => prev + `User --> ${inputValue} \n \n AI --> ...`)
+  }
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -21,12 +35,15 @@ const ActionResults = ({ preConfigPrompts, setPrompts }) => {
 
     prompt = `${preConfigPrompts} ${inputValue}`;
     const data = { model: 'llama3', prompt: prompt.trim() };
-    let interrupt = new AbortController();
+    let interrupt = new AbortController(); // Used to interrupt the request if needed
+    setIsButtonDisabled(true);
 
     try {
-      setIsTyping(true); // Start typing animation (blinking cursor enabled)
       await postRequest(data, interrupt.signal)
         .then(async (response) => {
+          /* setChatHistory((prev) => {
+            prev + `User --> ${inputValue} \n AI --> ...`
+          }) */
           await getResponse(response, (parsedResponse) => {
             const { response: word, done } = parsedResponse;
             if (word !== undefined) {
@@ -44,18 +61,18 @@ const ActionResults = ({ preConfigPrompts, setPrompts }) => {
           }
         });
     } finally {
-      prompt = ''; // Clear prompt
-      setPrompts(''); // Clear preConfigPrompts in App.jsx
-      setInputValue(''); // Clear input area
+      setIsTyping(true); // Start typing effect
+      prompt = '';       // Clear prompt
+      setPrompts('');    // Clear preConfigPrompts in App.jsx
+      setInputValue(''); // Clear the input value
+      setChatHistory((prev) => prev + '\n');
     }
   };
 
-  const isButtonDisabled = inputValue.trim() === '';
-
   return (
-    <div style={styles.container}>
-      <textarea
-        className={isTyping ? 'chatHistory blinking-cursor' : 'chatHistory'} // Apply blinking-cursor when typing
+    <div style={styles.container}>  
+        <textarea
+        className={isTyping ? 'chatHistory typing' : 'chatHistory'} // Add typing animation class with blinking cursor
         style={{ ...styles.textArea, height: '80%' }}
         value={chatHistory} // Display the chat history
         readOnly
@@ -76,6 +93,7 @@ const ActionResults = ({ preConfigPrompts, setPrompts }) => {
             backgroundColor: isButtonDisabled ? '#A9A9A9' : '#007BFF', // Gray if disabled, blue if enabled
             cursor: isButtonDisabled ? 'not-allowed' : 'pointer',      // 🚫 sign when disabled
           }}
+          onClick={handleSubmitClick}
           disabled={isButtonDisabled}
         >
           &#x25B2;
@@ -97,13 +115,14 @@ const styles = {
     flexGrow: 1,
     backgroundColor: 'black',
     color: 'white',
-    border: '1px solid #ccc',
+    //border: '1px solid #ccc',
     margin: '0.1rem',
     padding: '0.1rem',
     fontSize: '1rem',
     resize: 'none',
-    position: 'relative', // Ensure positioning for blinking cursor
+    position: 'relative', // Ensure positioning for blinking cursor and spinner
     whiteSpace: 'pre-wrap', // To handle new lines properly
+    height: '80vh'
   },
   form: {
     flexGrow: 1,

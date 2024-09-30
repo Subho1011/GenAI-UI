@@ -1,43 +1,43 @@
 const buttonArray = [
     {
         id: 0,
-        text: "Info -> TCS",
-        prompt: "Tell me something about TCS"
+        text: "Info -> Kolkata",
+        prompt: "What is the temperature in Kolkata"
     },
     {
         id: 1,
-        text: "Info -> Infosys",
-        prompt: "Tell me something about Infosys"
+        text: "Info -> Chennai",
+        prompt: "What is the temperature in Chennai"
     },
     {
         id: 2,
-        text: "Info -> Oracle",
-        prompt: "Tell me something about Oracle"
+        text: "Info -> Mumbai",
+        prompt: "What is the temperature in Mumbai"
     },
     {
         id: 3,
-        text: "Info -> Deloitte",
-        prompt: "Tell me something about Deloitte"
+        text: "Info -> Delhi",
+        prompt: "What is the temperature in Delhi"
     },
     {
         id: 4,
-        text: "Info -> EY",
-        prompt: "Tell me something about EY"
+        text: "Info -> Bengaluru",
+        prompt: "What is the temperature in Bengaluru"
     },
     {
         id: 5,
-        text: "Info -> Cognizant",
-        prompt: "Tell me something about Cognizant"
+        text: "Info -> Hydrabad",
+        prompt: "What is the temperature in Hydrabad"
     },
     {
         id: 6,
-        text: "Info -> Facebook",
-        prompt: "Tell me something about Facebook"
+        text: "Info -> Surat",
+        prompt: "What is the temperature in Surat"
     },
     {
         id: 7,
-        text: "Info -> TueTek",
-        prompt: "Tell me something about TueTek"
+        text: "Info -> Indore",
+        prompt: "What is the temperature in Indore"
     },
 
 ];
